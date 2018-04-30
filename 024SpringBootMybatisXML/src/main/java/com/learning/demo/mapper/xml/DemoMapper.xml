@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finsage.demo.mapper.DemoMapper">
+
+	<!-- 編寫 insert 語句 -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO DEMO (NAME) VALUES (#{name})
+	</insert>
+	
+	<update id="update">
+		UPDATE DEMO SET NAME = #{name} WHERE ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM DEMO WHERE ID = #{id}
+	</delete>
+	
+	<resultMap type="com.finsage.demo.model.Demo" id="baseRM">
+		<id property="id" column="id"></id>
+		<result property="name" column="name"/>
+	</resultMap>
+	<select id="selectAll" resultMap="baseRM">
+		SELECT * FROM DEMO
+	</select>
+	
+	<select id="selectById" resultMap="baseRM">
+		SELECT * FROM DEMO WHERE ID = #{id}
+	</select>
+
+</mapper>

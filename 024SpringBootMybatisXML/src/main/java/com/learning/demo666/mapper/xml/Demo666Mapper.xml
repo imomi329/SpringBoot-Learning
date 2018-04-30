@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finsage.demo666.mapper.Demo666Mapper">
+
+	<resultMap type="com.finsage.demo666.model.Demo666" id="baseRM">
+		<id property="id" column="id"></id>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+	</resultMap>
+	<select id="select1" resultMap="baseRM">
+		SELECT * FROM DEMO 
+			<where>
+				<if test="name != null and name != ''">
+					AND NAME = #{name}
+				</if>
+				<if test="email != null and email != ''">
+					AND EMAIL = #{email}
+				</if>
+			</where>
+	</select>
+	<update id="update1">
+		UPDATE DEMO 
+			<set>
+			<!-- <trim prifix="set" suffixOverrides=","> -->
+				<if test="name != null and name != ''">
+					NAME = #{name},
+				</if>
+				<if test="email != null and email != ''">
+					EMAIL = #{email},
+				</if>
+			</set>
+			<!-- </trim> -->
+		WHERE ID = #{id}
+	</update>
+	<select id="select2" resultMap="baseRM">
+		SELECT * FROM DEMO 
+			<trim prefix="where" prefixOverrides="and|or">
+				<if test="name != null and name != ''">
+					AND NAME = #{name}
+				</if>
+				<if test="email != null and email != ''">
+					AND EMAIL = #{email}
+				</if>
+			</trim>
+	</select>
+	<update id="update2">
+		UPDATE DEMO 
+			<trim prefix="set" suffixOverrides=",">
+				<if test="name != null and name != ''">
+					NAME = #{name},
+				</if>
+				<if test="email != null and email != ''">
+					EMAIL = #{email},
+				</if>
+			</trim>
+		WHERE ID = #{id}
+	</update>
+	<select id="select3" resultMap="baseRM">
+		SELECT * FROM DEMO 
+			<where>
+				<choose>
+					<when test="name != null and name != ''">
+						AND NAME = #{name}
+					</when>
+					<when test="email != null and email != ''">
+						AND EMAIL = #{email}
+					</when>
+					<otherwise>
+						1 = 1
+					</otherwise>
+				</choose>
+			</where>
+	</select>
+	<select id="select4" resultMap="baseRM">
+		SELECT * FROM DEMO WHERE ID IN
+			<foreach collection="array" item="id" open="(" separator="," close=")">#{id}</foreach>
+	</select>
+	<select id="select5" resultMap="baseRM">
+		SELECT * FROM DEMO WHERE ID IN
+			<foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
+	</select>
+
+</mapper>
