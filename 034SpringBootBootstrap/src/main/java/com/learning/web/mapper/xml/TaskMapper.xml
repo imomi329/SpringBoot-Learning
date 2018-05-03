@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.learning.web.mapper.TaskMapper">
+	<resultMap id="BaseResultMap" type="com.learning.web.model.Task">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="dateCreated" property="date_created" />
+		<result column="province_id" property="provinceId" />
+		<result column="finshed" property="finshed" />
+	</resultMap>
+
+	<parameterMap id="City" type="com.learning.web.model.Task" />
+
+	<sql id="Base_Column_List">
+		id, name, description, date_created, finshed
+	</sql>
+
+	<select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_tasks
+	</select>
+	
+	<select id="findOne" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_tasks
+		where id = #{id}
+	</select>
+	
+</mapper>
